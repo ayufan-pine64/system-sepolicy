@@ -39,7 +39,7 @@ allow hal_drm tee:unix_stream_socket connectto;
 allow hal_drm tee_device:chr_file rw_file_perms;
 
 # only allow unprivileged socket ioctl commands
-allowxperm hal_drm self:{ rawip_socket tcp_socket udp_socket }
+#allowxperm hal_drm self:{ rawip_socket tcp_socket udp_socket }
   ioctl { unpriv_sock_ioctls unpriv_tty_ioctls };
 
 ###
@@ -51,4 +51,4 @@ allowxperm hal_drm self:{ rawip_socket tcp_socket udp_socket }
 neverallow hal_drm { file_type fs_type }:file execute_no_trans;
 
 # do not allow privileged socket ioctl commands
-neverallowxperm hal_drm domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
+#neverallowxperm hal_drm domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
