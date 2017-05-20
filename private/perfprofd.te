@@ -1,0 +1,3 @@
+userdebug_or_eng(`
+  init_daemon_domain(perfprofd)
+')

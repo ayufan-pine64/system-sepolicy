@@ -1,0 +1,2 @@
+# call into system_server process
+binder_call(hal_vr, system_server)

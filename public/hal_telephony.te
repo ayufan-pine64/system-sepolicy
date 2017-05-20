@@ -1,0 +1,3 @@
+# Perform HwBinder IPC.
+binder_call(hal_telephony, radio)
+binder_call(hal_telephony, bluetooth)

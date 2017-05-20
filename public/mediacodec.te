@@ -1,0 +1,46 @@
+# mediacodec - audio and video codecs live here
+type mediacodec, domain;
+type mediacodec_exec, exec_type, file_type;
+
+typeattribute mediacodec mlstrustedsubject;
+
+binder_use(mediacodec)
+binder_call(mediacodec, binderservicedomain)
+binder_call(mediacodec, appdomain)
+binder_service(mediacodec)
+
+add_service(mediacodec, mediacodec_service)
+allow mediacodec mediametrics_service:service_manager find;
+allow mediacodec surfaceflinger_service:service_manager find;
+allow mediacodec gpu_device:chr_file rw_file_perms;
+allow mediacodec video_device:chr_file rw_file_perms;
+allow mediacodec video_device:dir search;
+allow mediacodec ion_device:chr_file rw_file_perms;
+allow mediacodec hal_graphics_allocator:fd use;
+allow mediacodec hal_camera:fd use;
+
+
+# hidl access
+hwbinder_use(mediacodec)
+hwallocator_use(mediacodec)
+allow mediacodec system_file:dir { open read };
+
+###
+### neverallow rules
+###
+
+# mediacodec should never execute any executable without a
+# domain transition
+neverallow mediacodec { file_type fs_type }:file execute_no_trans;
+
+# The goal of the mediaserver split is to place media processing code into
+# restrictive sandboxes with limited responsibilities and thus limited
+# permissions. Example: Audioserver is only responsible for controlling audio
+# hardware and processing audio content. Cameraserver does the same for camera
+# hardware/content. Etc.
+#
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow mediacodec domain:{ tcp_socket udp_socket rawip_socket } *;
