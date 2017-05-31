@@ -28,4 +28,4 @@ add_service(mediadrmserver, mediacasserver_service)
 neverallow mediadrmserver { file_type fs_type }:file execute_no_trans;
 
 # do not allow privileged socket ioctl commands
-neverallowxperm mediadrmserver domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
+#neverallowxperm mediadrmserver domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
